@@ -40,8 +40,8 @@ Com o valor de offset é possível mover o cursor que percorre a imagem para o p
     
     for line in range(image_h): #Pixel count
         for byte in range(image_w):
-            byte = image.read(1)
-			image_list = search_in_list(image_list,int.from_bytes(byte,"little"))
+            	byte = image.read(1)
+	    	image_list = search_in_list(image_list,int.from_bytes(byte,"little"))
 ```
 
 A função search_in_list busca uma cor em uma lista, se a cor está presente ela incrementa o contador, se não ele adiciona a cor e coloca o contador de cores em 1. Essa função se aproveitou da tipagem dinâmica do Python, da noção de escopo e da manipulação de dados no stack. Toda vez que a função é chamada uma nova lista é criada, passando a antiga lista como referência, assim, a referência da lista antiga é substituída pela nova, como a tipagem é dinâmica, assim que a referência é perdida o interpretador do Python retira o dado do stack. Em resumo, uma lista de cores é criada.
@@ -51,9 +51,9 @@ A função search_in_list busca uma cor em uma lista, se a cor está presente el
 	found_flag = 0
 	if len(list) != 0:
         	for i in list:
-            	if i[0] == value:
-                	i[1] = i[1] + 1
-                	found_flag = 1
+            		if i[0] == value:
+                		i[1] = i[1] + 1
+                		found_flag = 1
 	if found_flag == 0:
 		list.append([value, 1])
 	return list
