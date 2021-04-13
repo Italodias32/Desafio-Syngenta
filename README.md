@@ -13,20 +13,20 @@ Com base nisso, a primeira coisa a ser feita é realizar a leitura do arquivo e 
     file_name = file_name.split(".")[0]
 
     with open(f'{file_name}.bmp','rb') as image:
-    image.seek(10, 0)
-    offset = int.from_bytes(image.read(4),"little")
+    	image.seek(10, 0)
+    	offset = int.from_bytes(image.read(4),"little")
     
-    image.seek(18, 0)
-    image_w = int.from_bytes(image.read(4),"little")
-    image_h = int.from_bytes(image.read(4),"little")
+   	image.seek(18, 0)
+    	image_w = int.from_bytes(image.read(4),"little")
+    	image_h = int.from_bytes(image.read(4),"little")
     
-    print('Header data:') #Bmp header data
-    print('Width of the bitmap in pixels = ', image_w)
-    print('Height of the bitmap in pixels. Positive for bottom to top pixel order = ', image_h)
-    print('Number of color planes being used = ', int.from_bytes(image.read(2),"little"))
-    print('Number of bits per pixel = ', int.from_bytes(image.read(2),"little"))
-    print('BI_RGB, no pixel array compression used = ', int.from_bytes(image.read(4),"little"))
-    print('Size of the raw bitmap data (including padding) = ' + str(int.from_bytes(image.read(4),"little")) + '\n')
+    	print('Header data:') #Bmp header data
+    	print('Width of the bitmap in pixels = ', image_w)
+    	print('Height of the bitmap in pixels. Positive for bottom to top pixel order = ', image_h)
+    	print('Number of color planes being used = ', int.from_bytes(image.read(2),"little"))
+    	print('Number of bits per pixel = ', int.from_bytes(image.read(2),"little"))
+    	print('BI_RGB, no pixel array compression used = ', int.from_bytes(image.read(4),"little"))
+    	print('Size of the raw bitmap data (including padding) = ' + str(int.from_bytes(image.read(4),"little")) + '\n')
 ```
 
 Com os de largura, image_w, e altura, image_h, é possível percorrer toda a imagem, já que o tamanho dos dados em bitmap com padding é igual ao produto de largura por altura, ou seja, não possui preenchimento de dados. 
@@ -48,15 +48,15 @@ A função search_in_list busca uma cor em uma lista, se a cor está presente el
 
 ```python
     def search_in_list(list, value):
-		found_flag = 0
-		if len(list) != 0:
-        for i in list:
-            if i[0] == value:
-                i[1] = i[1] + 1
-                found_flag = 1
-		if found_flag == 0:
-			list.append([value, 1])
-		return list
+	found_flag = 0
+	if len(list) != 0:
+        	for i in list:
+            	if i[0] == value:
+                	i[1] = i[1] + 1
+                	found_flag = 1
+	if found_flag == 0:
+		list.append([value, 1])
+	return list
 ```
 
 Ademais, os valores de bits estão na forma little endian para organização dos bits menos significativos. O resultado obtido é exibido na figura a seguir:
