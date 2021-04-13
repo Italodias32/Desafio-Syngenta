@@ -1,4 +1,5 @@
 #Desafio Syngenta Digital
+
 ##Desafio 1
 
 Inicialmente, foi proposto que um código fosse criado para contagem de pixels verdes de uma imagem, bem como encontrar uma mensagem escondida no arquivo. 
@@ -8,10 +9,11 @@ Para resolução do desafio, foi utilizado a linguagem de programação Python, 
 Com base nisso, a primeira coisa a ser feita é realizar a leitura do arquivo e ler o cabeçalho do BITMAP para conferir alguns dados importantes da imagem, como o número de pixels e o número de bits por pixels.
 
 ´´´python
-file_name = sys.argv[1] 
-file_name = file_name.split(".")[0]
 
-with open(f'{file_name}.bmp','rb') as image:
+    file_name = sys.argv[1] 
+    file_name = file_name.split(".")[0]
+
+    with open(f'{file_name}.bmp','rb') as image:
     image.seek(10, 0)
     offset = int.from_bytes(image.read(4),"little")
     
@@ -33,6 +35,7 @@ Com os de largura, image_w, e altura, image_h, é possível percorrer toda a ima
 Com o valor de offset é possível mover o cursor que percorre a imagem para o primeiro bit que contém os dados da figura e como, segundo o cabeçalho, o número de bits por pixels é 8, significa que cada pixels possui 256 possibilidades de cores. 
 
 ´´´python
+
     image.seek(offset, 0)
     
     image_list = []
@@ -46,6 +49,7 @@ Com o valor de offset é possível mover o cursor que percorre a imagem para o p
 A função search_in_list busca uma cor em uma lista, se a cor está presente ela incrementa o contador, se não ele adiciona a cor e coloca o contador de cores em 1. Essa função se aproveitou da tipagem dinâmica do Python, da noção de escopo e da manipulação de dados no stack. Toda vez que a função é chamada uma nova lista é criada, passando a antiga lista como referência, assim, a referência da lista antiga é substituída pela nova, como a tipagem é dinâmica, assim que a referência é perdida o interpretador do Python retira o dado do stack. Em resumo, uma lista de cores é criada.
 
 ´´´python
+
     def search_in_list(list, value):
 		found_flag = 0
 		if len(list) != 0:
@@ -69,6 +73,7 @@ Logo, o número de pontos verdes é de 298.
 2. A segunda tentativa, envolvia contar no número de pixels verdes por linha e transformar em um binário, a cada oito números. Foi constatado que todas as linhas possuíam 1 pixels verde, assim todos os números obtidos eram igual a 255, 11111111 em binário. Ou seja, sem a mensagem.
 
 ´´´python
+
     for line in range(image_h): #Pixel count
         for byte in range(image_w):
             byte = image.read(1)
@@ -92,6 +97,7 @@ Logo, o número de pontos verdes é de 298.
 3. A terceira tentativa foi com relação a realização do mesmo procedimento anterior, mas avaliando com relação às colunas, todavia algumas colunas apresentavam 2 pixels verdes. Assim, um split era aplicado a cada caracter “2” e o restante dos números era transformado para inteiro e depois para char, não obtendo nenhuma mensagem também.
 
 ´´´python
+
     for col in range(image_w): #Pixel count
         for line in range(image_h):
             byte = image.read(1)
